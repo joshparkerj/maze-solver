@@ -4,7 +4,7 @@ from window import Window
 
 
 class Cell:
-    def __init__(self, width, height, top_left: Point, win: Window):
+    def __init__(self, width, height, top_left: Point, win: Window = None):
         self.width = width
         self.height = height
         self.top_left = top_left
@@ -25,14 +25,18 @@ class Cell:
         top_right = Point(right, top)
         bottom_left = Point(left, bottom)
         bottom_right = Point(right, bottom)
+        lines = []
         if self.wall_is_closed['top']:
-            self.win.draw_line(Line(top_left, top_right), self.color)
+            lines.append(Line(top_left, top_right))
         if self.wall_is_closed['right']:
-            self.win.draw_line(Line(top_right, bottom_right), self.color)
+            lines.append(Line(top_right, bottom_right))
         if self.wall_is_closed['bottom']:
-            self.win.draw_line(Line(bottom_right, bottom_left), self.color)
+            lines.append(Line(bottom_right, bottom_left))
         if self.wall_is_closed['left']:
-            self.win.draw_line(Line(bottom_left, top_left), self.color)
+            lines.append(Line(bottom_left, top_left))
+        if self.win:
+            for line in lines:
+                self.win.draw_line(line, self.color)
 
     def close_wall(self, wall):
         self.wall_is_closed[wall] = True
