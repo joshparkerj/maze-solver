@@ -36,6 +36,7 @@ class Maze:
                     self.win)
                  for i in range(self.num_cols)]
                 for j in range(self.num_rows)]
+        self._break_entrance_and_exit()
         for row in self._cells:
             for cell in row:
                 cell.draw()
@@ -52,3 +53,10 @@ class Maze:
         if self.win:
             self.win.redraw()
             sleep(1/12)
+
+    def _break_entrance_and_exit(self):
+        maze_entrance = self._cells[0][0]
+        maze_exit = self._cells[-1][-1]
+        maze_entrance.open_wall('left')
+        maze_exit.open_wall('right')
+
