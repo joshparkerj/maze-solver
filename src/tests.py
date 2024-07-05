@@ -30,6 +30,10 @@ class Tests(TestCase):
         self.assertFalse(top_left_cell.wall_is_closed['left'])
         self.assertFalse(bottom_right_cell.wall_is_closed['right'])
 
+    def test_maze_cells_visited_reset(self):
+        maze = self.maze(10, 10)
+        self.assertTrue(all(not cell.visited for row in maze._cells for cell in row))
+
 
 if __name__ == '__main__':
     main()

@@ -15,6 +15,7 @@ class Cell:
                 'top': True,
                 'bottom': True}
         self.color = 'chartreuse'
+        self.visited = False
 
     def draw(self):
         top = self.top_left.y
