@@ -134,3 +134,39 @@ class Maze:
         for row in self._cells:
             for cell in row:
                 cell.visited = False
+
+    def solve(self):
+        return self._solve_r(0, 0)
+
+    def _try_cell(self, i, j, wall, current_cell):
+        next_cell = self._cells[i][j]
+        if (not current_cell.wall_is_closed[wall]
+                and not next_cell.visited):
+            current_cell.draw_move(next_cell)
+            if self._solve_r(i, j):
+                return True
+            else:
+                current_cell.draw_move(next_cell, undo=True)
+        return False
+
+    def _solve_r(self, i, j):
+        self._animate()
+        current_cell = self._cells[i][j]
+        if current_cell.visited:
+            raise Exception(
+                    'revisited a previously visited cell while solving!')
+        current_cell.visited = True
+        goal_cell = self._cells[-1][-1]
+        if (current_cell == goal_cell):
+            return True
+        if (j < len(self._cells[i]) - 1
+                and self._try_cell(i, j + 1, 'right', current_cell)):
+            return True
+        if j > 0 and self._try_cell(i, j - 1, 'left', current_cell):
+            return True
+        if (i < len(self._cells) - 1
+                and self._try_cell(i + 1, j, 'bottom', current_cell)):
+            return True
+        if i > 0 and self._try_cell(i - 1, j, 'top', current_cell):
+            return True
+        return False
